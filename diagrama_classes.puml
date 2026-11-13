@@ -1,0 +1,45 @@
+@startuml OldCrownBarbearia
+
+' Garante o padrão visual clássico da UML com alto contraste
+skinparam style strictuml
+skinparam backgroundColor white
+skinparam roundcorner 8
+skinparam classAttributeIconSize 0
+
+class Cliente {
+    + id: int
+    + nome: String
+    + whatsapp: String
+    + agendarHorario(): void
+}
+
+class Servico {
+    + id: int
+    + nome: String
+    + preco: double
+    + duracao: int
+    + descricao: String
+}
+
+class Barbeiro {
+    + id: int
+    + nome: String
+    + horariosDisponiveis: List<String>
+}
+
+class Agendamento {
+    + id: int
+    + data_agendamento: Date
+    + hora_agendamento: String
+    + valor_total: double
+    + status: String
+    + calcularTotal(): double
+    + concluirAgendamento(): void
+    + cancelarAgendamento(): void
+}
+
+Cliente "1" -- "0..*" Agendamento : realiza >
+Barbeiro "1" -- "0..*" Agendamento : atende >
+Agendamento "1" *-- "1..*" Servico : composto por >
+
+@enduml

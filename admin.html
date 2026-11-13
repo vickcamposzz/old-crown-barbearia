@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Old Crown – Painel do Barbeiro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e0e0f;--bg2:#171718;--card:#1d1d1f;--line:#2c2c2f;--tx:#f4f1ea;--mut:#a09b90;--gold:#c9a24b;--goldtx:#14110a;--ok:#4caf7d;--red:#e5605a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#faf7f0;--bg2:#f0ebe0;--card:#fff;--line:#e2dccd;--tx:#1a1814;--mut:#6f695c;--gold:#a67c1f;--goldtx:#fff}}
+:root[data-theme="light"]{--bg:#faf7f0;--bg2:#f0ebe0;--card:#fff;--line:#e2dccd;--tx:#1a1814;--mut:#6f695c;--gold:#a67c1f;--goldtx:#fff}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif;line-height:1.5}
+h1,h2{font-family:'Playfair Display',Georgia,serif}
+.wrap{max-width:1180px;margin:auto;padding:0 20px}
+header{border-bottom:1px solid var(--line);background:var(--bg2)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:60px;gap:12px}
+.logo{font:700 1.15rem 'Playfair Display',serif;color:var(--gold)}.logo small{font:500 .75rem Inter,sans-serif;color:var(--mut);margin-left:8px;letter-spacing:.1em;text-transform:uppercase}
+select,input{background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:10px 12px;font:inherit;color-scheme:light dark;max-width:100%}
+input:focus,select:focus{outline:2px solid var(--gold);border-color:transparent}
+.btn{background:var(--gold);color:var(--goldtx);border:0;border-radius:8px;padding:10px 18px;font:600 .9rem Inter,sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--tx)}
+.btn.sm{padding:6px 12px;font-size:.8rem}
+main{padding:30px 0 60px}
+h2{font-size:1.9rem}.sub{color:var(--mut);margin-bottom:22px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.stat span{font-size:.78rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em}
+.stat b{display:block;font:700 1.7rem 'Playfair Display',serif;color:var(--gold)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:3px}
+.seg button{background:none;border:0;color:var(--mut);padding:7px 16px;border-radius:7px;font:600 .85rem Inter,sans-serif;cursor:pointer}
+.seg button.on{background:var(--gold);color:var(--goldtx)}
+.nav{background:var(--bg2);border:1px solid var(--line);color:var(--tx);border-radius:8px;width:34px;height:34px;cursor:pointer;font-size:1.1rem}
+.lbl{font-weight:600;min-width:150px;text-align:center;text-transform:capitalize}
+.sp{flex:1}
+.bk{display:flex;gap:16px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:14px 16px;margin-bottom:10px;flex-wrap:wrap}
+.bk.done{border-left-color:var(--ok);opacity:.7}
+.tm{font:700 1.2rem 'Playfair Display',serif;color:var(--gold);min-width:60px}
+.inf{flex:1;min-width:200px}.inf b{display:block}.inf span{display:block;font-size:.9rem}.inf small{color:var(--mut)}
+.pr{font-weight:600}
+.act{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:.7rem;font-weight:600;color:var(--ok);margin-left:6px}
+.empty{text-align:center;color:var(--mut);padding:50px 0}
+.empty svg{display:block;margin:0 auto 10px}
+.scroll{overflow-x:auto}
+.week{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));gap:8px;min-width:930px}
+.col{background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:200px}
+.col.today,.cell.today{border-color:var(--gold)}
+.col h4{font:600 .8rem Inter,sans-serif;color:var(--mut);margin-bottom:8px;cursor:pointer}
+.chip{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:6px;padding:5px 7px;margin-bottom:5px;font-size:.78rem;color:var(--tx);cursor:pointer}
+.chip.done{border-left-color:var(--ok);opacity:.65}
+.chip b{color:var(--gold)}
+.month{display:grid;grid-template-columns:repeat(7,minmax(90px,1fr));gap:6px;min-width:660px}
+.dh{font-size:.85rem;color:var(--mut);padding:2px 4px}
+.cell{background:var(--bg2);border:1px solid var(--line);border-radius:8px;min-height:92px;padding:6px;cursor:pointer;text-align:left;color:var(--tx);font:inherit}
+.cell:hover{border-color:var(--gold)}
+.cell.off{opacity:.35}
+.cell .n{font-size:.8rem;font-weight:600;display:block;margin-bottom:4px}
+.cell .c{display:block;font-size:.7rem;background:var(--card);border-radius:4px;padding:1px 5px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .m{font-size:.68rem;color:var(--gold);font-weight:600}
+.modal{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px}
+.modal[hidden]{display:none}
+.mbox{background:var(--card);border:1px solid var(--line);border-radius:16px;max-width:480px;width:100%;max-height:92vh;overflow:auto;padding:24px}
+.mbox h3{font:700 1.4rem 'Playfair Display',serif;margin-bottom:14px}
+.mbox label{display:block;font-size:.78rem;color:var(--mut);margin:12px 0 4px;text-transform:uppercase;letter-spacing:.06em}
+.mbox input,.mbox select{width:100%}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sv{max-height:170px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--bg2)}
+.sv label{display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-size:.9rem;color:var(--tx);margin:0;padding:5px 0;cursor:pointer}
+.sv input{width:auto}
+.err{color:var(--red);font-size:.85rem;min-height:1.2em;margin-top:8px}
+.mf{display:flex;gap:10px;margin-top:14px}.mf .btn{flex:1}
+.tabs{display:flex;gap:4px}.tabs button{background:none;border:0;color:var(--mut);padding:8px 14px;border-radius:8px;font:600 .9rem Inter,sans-serif;cursor:pointer}.tabs button.on{color:var(--gold);background:var(--card)}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.bcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.bcard h3{font:700 1.2rem 'Playfair Display',serif}.bcard .role{color:var(--gold);font-size:.85rem;font-weight:600;margin-bottom:8px}.bcard p{color:var(--mut);font-size:.9rem;margin-bottom:10px}.bcard small{color:var(--mut)}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--gold);color:var(--goldtx);display:grid;place-items:center;font:700 1.2rem 'Playfair Display',serif;margin-bottom:10px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}.tags span{border:1px solid var(--line);border-radius:20px;padding:2px 10px;font-size:.75rem;color:var(--mut)}
+.mbox textarea{width:100%;background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:10px 12px;font:inherit;resize:vertical}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="logo">OLD CROWN<small>Painel</small></span>
+<nav class="tabs"><button class="on" data-pg="A">Agenda</button><button data-pg="B">Barbeiros</button></nav>
+<a href="barbearia.html" target="_blank" class="btn ghost sm" style="margin-left: auto; text-decoration: none;">Ver Site ↗</a>
+<select id="fb" aria-label="Barbeiro"></select></div></header>
+<main><div class="wrap">
+<div id="pgA">
+<h2>Agenda</h2><p class="sub">Organize os horários dos barbeiros.</p>
+<div class="stats" id="stats"></div>
+<div class="panel">
+<div class="bar">
+<div class="seg" id="seg"><button data-v="day">Dia</button><button data-v="week">Semana</button><button data-v="month">Mês</button></div>
+<button class="nav" data-n="-1" aria-label="Anterior">‹</button><span class="lbl" id="lbl"></span><button class="nav" data-n="1" aria-label="Próximo">›</button>
+<button class="btn ghost sm" id="today">Hoje</button>
+<span class="sp"></span>
+<button class="btn" id="add">+ Adicionar</button>
+</div>
+<div class="scroll" id="view"></div>
+</div>
+</div>
+<div id="pgB" hidden><div class="bar"><div><h2>Barbeiros</h2><p class="sub" style="margin:0">Cadastre a equipe que aparece no site.</p></div><span class="sp"></span><button class="btn" id="addB">+ Adicionar barbeiro</button></div><div class="bgrid" id="blist"></div></div>
+</div></main>
+
+<div class="modal" id="modal" hidden><div class="mbox" role="dialog" aria-modal="true">
+<h3>Novo agendamento</h3>
+<div class="two"><div><label>Cliente</label><input id="fn" placeholder="Nome"></div><div><label>WhatsApp</label><input id="fp" placeholder="DDD + número" inputmode="tel"></div></div>
+<label>Serviços</label><div class="sv" id="fs"></div>
+<div class="two"><div><label>Barbeiro</label><select id="fbb"></select></div>
+<div><label>Data</label><input type="date" id="fd"></div></div>
+<label>Horário</label><select id="ft"></select>
+<div class="err" id="ferr"></div>
+<div class="mf"><button class="btn ghost" id="cancel">Cancelar</button><button class="btn" id="save">Salvar</button></div>
+</div></div>
+
+<div class="modal" id="bmodal" hidden><div class="mbox" role="dialog" aria-modal="true"><h3 id="bt">Novo barbeiro</h3>
+<div class="two"><div><label>Nome</label><input id="bn1" placeholder="Nome"></div><div><label>Função</label><input id="br" placeholder="Ex: Mestre barbeiro"></div></div>
+<div class="two"><div><label>Experiência</label><input id="bx" placeholder="Ex: 5 anos"></div><div><label>Dias de atendimento</label><input id="bh" placeholder="Ex: Segunda a sábado"></div></div>
+<div class="two"><div><label>Avaliação</label><input id="ba" placeholder="Ex: 4,9"></div><div><label>Cortes realizados</label><input id="bc" placeholder="Ex: 2 mil+"></div></div>
+<label>Especialidades (separe por vírgula)</label><input id="bt2" placeholder="Degradê, Barba, Navalha">
+<label>Sobre o barbeiro</label><textarea id="bb" rows="3"></textarea>
+<div class="err" id="berr"></div><div class="mf"><button class="btn ghost" id="bcancel">Cancelar</button><button class="btn" id="bsave">Salvar</button></div></div></div>
+
+<script>
+// 1. Serviços e Preços sincronizados com os IDs 1-24 da base de dados MariaDB
+const SV_LIST = [
+  { id: 1, name: 'Corte e Barba', price: 115 },
+  { id: 2, name: 'Corte Feminino', price: 70 },
+  { id: 3, name: 'Corte Infantil', price: 65 },
+  { id: 4, name: 'Corte Masculino', price: 60 },
+  { id: 5, name: 'Hidratação', price: 25 },
+  { id: 6, name: 'Penteado', price: 40 },
+  { id: 7, name: 'Pezinho', price: 25 },
+  { id: 8, name: 'Relaxamento Capilar', price: 80 },
+  { id: 9, name: 'Relaxamento Capilar Franja', price: 55 },
+  { id: 10, name: 'Selagem / Alisamento', price: 115 },
+  { id: 11, name: 'Selagem Franja', price: 65 },
+  { id: 12, name: 'Tonalização', price: 65 },
+  { id: 13, name: 'Barba', price: 55 },
+  { id: 14, name: 'Coloração de Barba e Bigode', price: 45 },
+  { id: 15, name: 'Contorno de Barba', price: 40 },
+  { id: 16, name: 'Sobrancelha na Navalha', price: 25 },
+  { id: 17, name: 'Depilação de Nariz na Cera', price: 30 },
+  { id: 18, name: 'Depilação de Orelha', price: 25 },
+  { id: 19, name: 'Sobrancelha na Cera', price: 35 },
+  { id: 20, name: 'Pacote Barba Completa', price: 180 },
+  { id: 21, name: 'Pacote Clássico - Barba', price: 270 },
+  { id: 22, name: 'Pacote Completo Corte e Barba', price: 570 },
+  { id: 23, name: 'Pacote Corte de Cabelo', price: 200 },
+  { id: 24, name: 'Pacote Essencial - Cabelo', price: 300 }
+];
+
+const PR = Object.fromEntries(SV_LIST.map(s => [s.name, s.price]));
+
+let BARBERS = [
+  { id: '101', n: 'Gabriel Silva', r: 'Mestre barbeiro', x: '12 anos', a: '5,0', c: '5 mil+', h: 'Segunda a sábado', t: ['Corte clássico','Tesoura','Barba completa'], bio: 'Especialista em cortes clássicos.' },
+  { id: '102', n: 'Lucas Santos', r: 'Especialista em degradê', x: '7 anos', a: '4,9', c: '3 mil+', h: 'Terça a sábado', t: ['Degradê','Risquinho','Pigmentação'], bio: 'Apaixonado por cortes modernos.' },
+  { id: '103', n: 'Matheus Costa', r: 'Barba e navalha', x: '9 anos', a: '4,9', c: '4 mil+', h: 'Segunda a sexta', t: ['Barba','Navalha','Sobrancelha'], bio: 'Especialista em barba e cuidados faciais.' }
+];
+
+let BN = {};
+const syncB = () => { BN = Object.fromEntries(BARBERS.map(b => [b.id, b.n])); };
+syncB();
+
+const DN = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DL = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const $ = id => document.getElementById(id);
+const esc = s => String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const brl = v => 'R$ ' + Number(v || 0).toFixed(2).replace('.',',');
+const iso = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+const pd = s => { const [a,b,c] = s.split('-'); return new Date(+a, b-1, +c); };
+const addD = (d,n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const wk = d => addD(d, -d.getDay());
+
+let store = [];
+let view = 'day', cur = new Date(), fb = 'all';
+
+// Fetch agendamentos da API Node.js
+async function fetchStore() {
+  try {
+    const res = await fetch('http://localhost:3000/api/agendamentos');
+    if (res.ok) {
+      const data = await res.json();
+      store = data.map(item => {
+        const rawDate = item.data_agendamento || item.data || item.booking_date || '';
+        const formattedDate = rawDate ? rawDate.split('T')[0] : '';
+
+        return {
+          id: item.id,
+          b: String(item.barbeiro_id || item.barber_id || item.barber || 1),
+          bn: item.barbeiro_nome || item.barber_name || 'Profissional',
+          d: formattedDate,
+          t: item.hora_agendamento || item.horario || item.time || '',
+          name: item.cliente || item.cliente_nome || item.nome || 'Cliente',
+          ph: item.whatsapp || item.cliente_whatsapp || '',
+          sn: item.servicos || item.services || item.servico || 'Serviço',
+          total: parseFloat(item.valor_total || item.total || 0),
+          ok: item.status === 'Concluído' || Number(item.ok) === 1
+        };
+      });
+    }
+  } catch (err) {
+    console.error('Erro ao buscar agendamentos:', err);
+  }
+}
+
+const list = () => store.filter(x => fb === 'all' || x.b === fb).sort((a,b) => (a.d+a.t).localeCompare(b.d+b.t));
+const on = (d, l) => l.filter(x => x.d === iso(d));
+const empty = '<div class="empty"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Nenhum agendamento neste período.</div>';
+const wa = x => `https://wa.me/55${String(x.ph).replace(/\D/g,'')}?text=${encodeURIComponent('Olá '+x.name+', aqui é da Old Crown. Passando para confirmar seu horário de '+x.sn+' às '+x.t+'.')}`;
+
+// Função direta para Concluir/Reabrir
+async function completeBooking(id) {
+  try {
+    const res = await fetch(`http://localhost:3000/api/agendamentos/${id}/concluir`, {
+      method: 'PUT'
+    });
+    if (res.ok) {
+      await render(); // Atualiza a interface e recalcula os botões
+    } else {
+      alert('Erro ao atualizar agendamento.');
+    }
+  } catch (err) {
+    console.error('Erro no PUT:', err);
+  }
+}
+
+async function deleteBooking(id) {
+  if (!confirm('Deseja realmente cancelar este agendamento?')) return;
+  try {
+    const res = await fetch(`http://localhost:3000/api/agendamentos/${id}`, {
+      method: 'DELETE'
+    });
+    if (res.ok) {
+      await render();
+    } else {
+      alert('Erro ao excluir agendamento.');
+    }
+  } catch (err) {
+    console.error('Erro no DELETE:', err);
+  }
+}
+function dayRow(x) {
+  const isDone = Boolean(x.ok);
+
+  return `<div class="bk ${isDone ? 'done' : ''}" data-id="${x.id}">
+    <div class="tm">${x.t}</div>
+    <div class="inf">
+      <b>${esc(x.name)}${isDone ? '<span class="tag">CONCLUÍDO</span>' : ''}</b>
+      <span>${esc(x.sn)}</span>
+      <small>${esc(BN[x.b] || x.bn)} · ${esc(x.ph)}</small>
+    </div>
+    <div class="pr">${brl(x.total)}</div>
+    <div class="act">
+      <a class="btn ghost sm" target="_blank" rel="noopener" href="${wa(x)}">WhatsApp</a>
+      <button class="btn sm" type="button" onclick="window.completeBooking(${x.id})">${isDone ? 'Reabrir' : 'Concluir'}</button>
+      <button class="btn ghost sm" type="button" onclick="window.deleteBooking(${x.id})">Cancelar</button>
+    </div>
+  </div>`;
+}
+
+async function render() {
+  await fetchStore();
+  const l = list(), t = new Date(), ti = iso(t);
+  document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.v === view));
+  const ws = wk(t), wl = l.filter(x => x.d >= iso(ws) && x.d <= iso(addD(ws,6))), td = on(t,l);
+  
+  $('stats').innerHTML = `<div class="stat"><span>Hoje</span><b>${td.length}</b></div>
+    <div class="stat"><span>Esta semana</span><b>${wl.length}</b></div>
+    <div class="stat"><span>Receita prevista hoje</span><b>${brl(td.reduce((a,x)=>a+x.total,0))}</b></div>
+    <div class="stat"><span>Concluídos hoje</span><b>${td.filter(x=>x.ok).length}</b></div>`;
+  
+  let h = '';
+  if(view==='day'){
+    $('lbl').textContent = DL[cur.getDay()] + ', ' + cur.toLocaleDateString('pt-BR');
+    const r = on(cur,l); h = r.length ? r.map(dayRow).join('') : empty;
+  } else if(view==='week'){
+    const s = wk(cur), e = addD(s,6);
+    $('lbl').textContent = s.toLocaleDateString('pt-BR',{day:'2-digit',month:'short'}) + ' – ' + e.toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+    h = '<div class="week">' + [0,1,2,3,4,5,6].map(i => {
+      const d = addD(s,i), r = on(d,l);
+      return `<div class="col ${iso(d)===ti?'today':''}"><h4 data-go="${iso(d)}">${DN[i]} ${String(d.getDate()).padStart(2,'0')}</h4>${r.map(x=>`<button class="chip ${x.ok?'done':''}" data-go="${x.d}"><b>${x.t}</b> ${esc(x.name)}<br>${esc(x.sn)}</button>`).join('')||'<small style="color:var(--mut)">Livre</small>'}</div>`;
+    }).join('') + '</div>';
+  } else {
+    $('lbl').textContent = cur.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+    const f = new Date(cur.getFullYear(),cur.getMonth(),1), s = wk(f), last = new Date(cur.getFullYear(),cur.getMonth()+1,0), n = Math.ceil((f.getDay()+last.getDate())/7)*7;
+    h = '<div class="month">' + DN.map(d=>`<div class="dh">${d}</div>`).join('') + Array.from({length:n},(_,i)=>{
+      const d = addD(s,i), r = on(d,l);
+      return `<button class="cell ${d.getMonth()!==cur.getMonth()?'off':''} ${iso(d)===ti?'today':''}" data-go="${iso(d)}"><span class="n">${d.getDate()}</span>${r.slice(0,2).map(x=>`<span class="c">${x.t} ${esc(x.name)}</span>`).join('')}${r.length>2?`<span class="m">+${r.length-2} mais</span>`:''}</button>`;
+    }).join('') + '</div>';
+  }
+  $('view').innerHTML = h;
+}
+
+function openAdd() {
+  $('fn').value = $('fp').value = ''; $('ferr').textContent = ''; $('fd').value = iso(cur);
+  $('fs').innerHTML = SV_LIST.map(s => `<label><input type="checkbox" value="${s.id}" data-price="${s.price}" data-name="${s.name}">${s.name} <span style="margin-left:auto;color:var(--mut)">${brl(s.price)}</span></label>`).join('');
+  $('ft').innerHTML = '';
+  for(let h=9; h<19; h++) for(const m of ['00','30']) $('ft').innerHTML += `<option>${String(h).padStart(2,'0')}:${m}</option>`;
+  if(fb !== 'all') $('fbb').value = fb;
+  $('modal').hidden = false;
+}
+
+async function saveAdd() {
+  const name = $('fn').value.trim(), ph = $('fp').value.trim(), selectedInputs = [...document.querySelectorAll('#fs input:checked')], b = $('fbb').value, d = $('fd').value, t = $('ft').value;
+  const e = name.length < 2 ? 'Informe o nome do cliente.' : !selectedInputs.length ? 'Escolha ao menos um serviço.' : !d ? 'Escolha a data.' : '';
+  if(e) { $('ferr').textContent = e; return; }
+
+  const selectedServices = selectedInputs.map(i => parseInt(i.value));
+  const serviceNames = selectedInputs.map(i => i.dataset.name).join(', ');
+  const total = selectedInputs.reduce((acc, i) => acc + parseFloat(i.dataset.price), 0);
+
+  const payload = {
+    clientName: name,
+    clientPhone: ph,
+    barbeiro_id: parseInt(b) || 101,
+    date: d,
+    time: t,
+    services: serviceNames,
+    selectedServices: selectedServices,
+    total: total
+  };
+
+  try {
+    const res = await fetch('http://localhost:3000/api/agendamentos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      $('modal').hidden = true;
+      cur = pd(d);
+      render();
+    } else {
+      $('ferr').textContent = 'Erro ao salvar no banco de dados.';
+    }
+  } catch (err) {
+    $('ferr').textContent = 'Erro de conexão com o servidor Node.js.';
+  }
+}
+
+document.addEventListener('click', async e => {
+  // Procura o botão Concluir mais próximo
+  const btnOk = e.target.closest('[data-ok]');
+  if (btnOk) {
+    console.log('>>> CLICOU NO CONCLUIR!', btnOk.dataset.ok);
+    const id = btnOk.dataset.ok;
+    try {
+      const res = await fetch(`http://localhost:3000/api/agendamentos/${id}/concluir`, { method: 'PUT' });
+      if (res.ok) await render();
+      else alert('Erro ao atualizar no banco de dados.');
+    } catch (err) {
+      console.error(err);
+    }
+    return;
+  }
+
+  // Procura o botão Cancelar mais próximo
+  const btnDel = e.target.closest('[data-del]');
+  if (btnDel) {
+    console.log('>>> CLICOU NO CANCELAR!', btnDel.dataset.del);
+    const id = btnDel.dataset.del;
+    if (confirm('Cancelar este agendamento?')) {
+      try {
+        const res = await fetch(`http://localhost:3000/api/agendamentos/${id}`, { method: 'DELETE' });
+        if (res.ok) await render();
+        else alert('Erro ao excluir do banco de dados.');
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    return;
+  }
+
+  // Outros botões da interface
+  const q = s => e.target.closest(s);
+  let el;
+  if (el = q('[data-v]')) { view = el.dataset.v; render(); }
+  else if (el = q('[data-n]')) { const n = +el.dataset.n; if (view === 'day') cur = addD(cur, n); else if (view === 'week') cur = addD(cur, 7 * n); else cur = new Date(cur.getFullYear(), cur.getMonth() + n, 1); render(); }
+  else if (el = q('[data-go]')) { cur = pd(el.dataset.go); view = 'day'; render(); }
+  else if (el = q('[data-pg]')) showPage(el.dataset.pg);
+  else if (el = q('[data-eb]')) openB(el.dataset.eb);
+  else if (el = q('[data-db]')) {
+    if (BARBERS.length <= 1) { alert('É preciso manter pelo menos um barbeiro.'); return; }
+    if (confirm('Remover este barbeiro?')) {
+      BARBERS = BARBERS.filter(b => b.id !== el.dataset.db);
+      syncB(); fillSel(); renderB(); render();
+    }
+  }
+  else if (e.target.id === 'modal') $('#modal').hidden = true;
+  else if (e.target.id === 'bmodal') $('#bmodal').hidden = true;
+});
+
+$('today').onclick = () => { cur = new Date(); render(); };
+$('add').onclick = openAdd;
+$('cancel').onclick = () => $('modal').hidden = true;
+$('save').onclick = saveAdd;
+$('fb').onchange = e => { fb = e.target.value; render(); };
+document.addEventListener('keydown', e => { if(e.key==='Escape') { $('modal').hidden = true; $('bmodal').hidden = true; } });
+
+function fillSel() {
+  const o = BARBERS.map(b => `<option value="${esc(b.id)}">${esc(b.n)}</option>`).join('');
+  if(!BN[fb]) fb = 'all';
+  $('fb').innerHTML = '<option value="all">Todos os barbeiros</option>' + o;
+  $('fb').value = fb;
+  $('fbb').innerHTML = o;
+}
+
+function showPage(p) {
+  $('pgA').hidden = p !== 'A';
+  $('pgB').hidden = p !== 'B';
+  $('fb').hidden = p !== 'A';
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b.dataset.pg === p));
+  if(p === 'B') renderB();
+}
+
+function renderB() {
+  $('blist').innerHTML = BARBERS.map(b => `<div class="bcard">
+    <div class="avatar">${esc((b.n||'?')[0])}</div>
+    <h3>${esc(b.n)}</h3>
+    <div class="role">${esc(b.r||'')}</div>
+    <p>${esc(b.bio||'')}</p>
+    <div class="tags">${(b.t||[]).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+    <small>${esc(b.x||'')}${b.h?' · '+esc(b.h):''}</small>
+    <div class="act" style="margin-top:12px">
+      <button class="btn ghost sm" data-eb="${esc(b.id)}">Editar</button>
+      <button class="btn ghost sm" data-db="${esc(b.id)}">Remover</button>
+    </div>
+  </div>`).join('');
+}
+
+let editB = null;
+function openB(id) {
+  editB = id || null;
+  const b = BARBERS.find(x => x.id === id) || { t: [] };
+  $('bt').textContent = id ? 'Editar barbeiro' : 'Novo barbeiro';
+  $('bn1').value = b.n || ''; $('br').value = b.r || ''; $('bx').value = b.x || '';
+  $('bh').value = b.h || ''; $('ba').value = b.a || ''; $('bc').value = b.c || '';
+  $('bt2').value = (b.t || []).join(', '); $('bb').value = b.bio || '';
+  $('berr').textContent = ''; $('bmodal').hidden = false;
+}
+
+function saveBF() {
+  const n = $('bn1').value.trim();
+  if(n.length < 2) { $('berr').textContent = 'Informe o nome do barbeiro.'; return; }
+  const o = {
+    id: editB || 'b' + Date.now(),
+    n, r: $('br').value.trim() || 'Barbeiro',
+    x: $('bx').value.trim(), a: $('ba').value.trim() || '—', c: $('bc').value.trim() || '—',
+    h: $('bh').value.trim() || 'Segunda a sábado',
+    t: $('bt2').value.split(',').map(s => s.trim()).filter(Boolean),
+    bio: $('bb').value.trim()
+  };
+  if(editB) BARBERS = BARBERS.map(b => b.id === editB ? o : b); else BARBERS.push(o);
+  syncB(); fillSel(); renderB(); render(); $('bmodal').hidden = false; $('bmodal').hidden = true;
+}
+
+$('addB').onclick = () => openB();
+$('bcancel').onclick = () => $('bmodal').hidden = true;
+$('bsave').onclick = saveBF;
+
+fillSel();
+render();
+window.completeBooking = async function(id) {
+  try {
+    const res = await fetch(`http://localhost:3000/api/agendamentos/${id}/concluir`, { method: 'PUT' });
+    if (res.ok) {
+      await render();
+    } else {
+      alert('Erro ao atualizar agendamento no banco.');
+    }
+  } catch (err) {
+    console.error('Erro no PUT:', err);
+  }
+};
+
+window.deleteBooking = async function(id) {
+  if (!confirm('Deseja realmente cancelar este agendamento?')) return;
+  try {
+    const res = await fetch(`http://localhost:3000/api/agendamentos/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      await render();
+    } else {
+      alert('Erro ao excluir agendamento.');
+    }
+  } catch (err) {
+    console.error('Erro no DELETE:', err);
+  }
+};
+// Delegação universal de cliques para os botões do painel
+document.addEventListener('click', async e => {
+  const q = s => e.target.closest(s);
+  let el;
+  if (el = q('[data-v]')) { view = el.dataset.v; render(); }
+  else if (el = q('[data-n]')) { const n = +el.dataset.n; if (view === 'day') cur = addD(cur, n); else if (view === 'week') cur = addD(cur, 7 * n); else cur = new Date(cur.getFullYear(), cur.getMonth() + n, 1); render(); }
+  else if (el = q('[data-go]')) { cur = pd(el.dataset.go); view = 'day'; render(); }
+  else if (el = q('[data-pg]')) showPage(el.dataset.pg);
+  else if (el = q('[data-eb]')) openB(el.dataset.eb);
+  else if (el = q('[data-db]')) {
+    if (BARBERS.length <= 1) { alert('É preciso manter pelo menos um barbeiro.'); return; }
+    if (confirm('Remover este barbeiro?')) {
+      BARBERS = BARBERS.filter(b => b.id !== el.dataset.db);
+      syncB(); fillSel(); renderB(); render();
+    }
+  }
+  else if (e.target.id === 'modal') $('#modal').hidden = true;
+  else if (e.target.id === 'bmodal') $('#bmodal').hidden = true;
+});
+</script>
+</body>
+</html>

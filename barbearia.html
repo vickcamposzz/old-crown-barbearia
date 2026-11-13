@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Old Crown | Barbearia - Desde 2014</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    
+    :root {
+      --bg: #0d0d0d;
+      --bg2: #161616;
+      --card: #1f1f1f;
+      --gold: #c9a24b;
+      --gold-hover: #dbb358;
+      --line: #2a2a2a;
+      --text: #e5e5e5;
+      --muted: #a0a0a0;
+      --radius: 12px;
+      --font-title: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+    }
+
+    /* Header / Navbar */
+    .navbar {
+      width: 100%;
+      height: 70px;
+      padding: 0 clamp(20px, 5vw, 60px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    }
+
+    .brand-logo {
+      font-family: var(--font-title);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-decoration: none;
+    }
+
+    .btn-nav {
+      background: var(--gold);
+      color: #000;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .btn-nav:hover {
+      background: var(--gold-hover);
+    }
+
+    /* Hero Section Visual */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 24px 60px 24px;
+      /* Imagem de fundo da barbearia com overlay escuro */
+      background: linear-gradient(180deg, rgba(13, 13, 13, 0.7) 0%, rgba(13, 13, 13, 0.95) 100%),
+                  url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    }
+
+    .hero-badge {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .hero h1 {
+      font-family: var(--font-title);
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1.1;
+      color: #fff;
+      margin-bottom: 16px;
+      max-width: 750px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      max-width: 520px;
+      margin-bottom: 28px;
+    }
+
+    .btn-hero {
+      background: var(--gold);
+      color: #000;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px rgba(201, 162, 75, 0.25);
+    }
+
+    .btn-hero:hover {
+      background: var(--gold-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Metrics Grid */
+    .hero-stats {
+      display: flex;
+      gap: clamp(24px, 5vw, 60px);
+      margin-top: 50px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Container de Agendamento */
+    .app-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 60px 16px;
+    }
+
+    .section-header {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 24px;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .section-header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .app-body {
+      padding: 24px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .step-title {
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    /* Scrollbar estilizada */
+    .svc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .svc-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .svc-list::-webkit-scrollbar-track {
+      background: var(--bg2);
+      border-radius: 4px;
+    }
+    .svc-list::-webkit-scrollbar-thumb {
+      background: var(--line);
+      border-radius: 4px;
+    }
+    .svc-list::-webkit-scrollbar-thumb:hover {
+      background: var(--gold);
+    }
+
+    .opt {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .opt:hover, .opt:focus-visible {
+      border-color: var(--gold);
+      outline: none;
+    }
+
+    .opt.selected {
+      border-color: var(--gold);
+      background: rgba(201, 162, 75, 0.08);
+    }
+
+    .opt-title {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .opt-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .opt-price {
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    input {
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: #fff;
+      padding: 14px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    input:focus {
+      border-color: var(--gold);
+    }
+
+    .btn {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 16px;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 16px;
+    }
+
+    .btn:hover {
+      background: var(--gold-hover);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      margin-top: 8px;
+    }
+
+    .btn-secondary:hover {
+      background: var(--card);
+      color: #fff;
+    }
+
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 0.95rem;
+    }
+
+    .summary-row:last-child {
+      margin-bottom: 0;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <a href="#" class="brand-logo">OLD CROWN</a>
+ <a href="#" onclick="openLoginModal(event)" class="btn-nav" style="background-color: #c9a24b; color: #000; font-weight: bold; border: 1px solid #c9a24b; margin-right: 10px; text-decoration: none; padding: 6px 12px; border-radius: 6px;">Área do Barbeiro </a>
+  <a href="#agendamento" class="btn-nav">Agendar</a>
+</nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-badge">BARBEARIA • DESDE 2014</div>
+    <h1>Corte clássico.<br>Estilo de verdade.</h1>
+    <p>Escolha seu serviço, seu barbeiro e o melhor horário. Agende em menos de um minuto.</p>
+    <a href="#agendamento" class="btn-hero">Agendar meu horário</a>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">12 mil+</div>
+        <div class="stat-label">cortes realizados</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4.9/5</div>
+        <div class="stat-label">avaliação média</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3</div>
+        <div class="stat-label">barbeiros mestres</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Flow de Agendamento -->
+  <main id="agendamento" class="app-wrapper">
+    <div class="section-header">
+      <h2>Agende seu horário</h2>
+      <p>Siga os passos abaixo e confirme pelo WhatsApp.</p>
+    </div>
+
+    <div class="container">
+      <div class="app-body">
+        <!-- Passo 1: Serviços -->
+        <section id="step-1" class="step active">
+          <div class="step-title">1 • Serviços (escolha quantos quiser)</div>
+          <div id="services" class="svc-list"></div>
+          <button class="btn" onclick="nextStep(2)">Continuar</button>
+        </section>
+
+        <!-- Passo 2: Barbeiro -->
+        <section id="step-2" class="step">
+          <div class="step-title">2 • Profissional</div>
+          <div id="barbers" class="svc-list"></div>
+          <button class="btn btn-secondary" onclick="prevStep(1)">Voltar</button>
+        </section>
+
+        <!-- Passo 3: Data e Hora -->
+        <section id="step-3" class="step">
+          <div class="step-title">3 • Data e Horário</div>
+          <div class="form-group">
+            <label for="date">Data</label>
+            <input type="date" id="date" />
+          </div>
+          <div id="times" class="grid-2"></div>
+          <button class="btn btn-secondary" onclick="prevStep(2)">Voltar</button>
+        </section>
+
+        <!-- Passo 4: Identificação -->
+        <section id="step-4" class="step">
+          <div class="step-title">4 • Seus Dados</div>
+          <div class="form-group">
+            <label for="name">Nome Completo</label>
+            <input type="text" id="name" placeholder="Digite seu nome" />
+          </div>
+          <div class="form-group">
+            <label for="phone">WhatsApp</label>
+            <input type="tel" id="phone" placeholder="(00) 00000-0000" maxlength="15" />
+          </div>
+          <button class="btn" onclick="reviewBooking()">Revisar Agendamento</button>
+          <button class="btn btn-secondary" onclick="prevStep(3)">Voltar</button>
+        </section>
+
+        <!-- Passo 5: Confirmação -->
+        <section id="step-5" class="step">
+          <div class="step-title">5 • Confirmação</div>
+          <div id="summary" class="summary-card"></div>
+          <button class="btn" onclick="confirmBooking()">Confirmar Agendamento</button>
+          <button class="btn btn-secondary" onclick="prevStep(4)">Voltar</button>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    const servicesData = [
+  {
+    category: "Pacotes",
+    items: [
+      { id: 20, name: "Pacote Barba Completa", price: 180, time: "Pacote Mensal", desc: "Pacote com 4 barbas completas." },
+      { id: 21, name: "Pacote Clássico - Barba", price: 270, time: "Pacote Trimestral", desc: "Pacote 6 Barbas + 3 sobrancelhas na navalha grátis." },
+      { id: 22, name: "Pacote Completo Corte e Barba", price: 570, time: "Pacote Semestral", desc: "Pacote 6 cortes de cabelo + 6 Barbas + 3 hidratações grátis." },
+      { id: 23, name: "Pacote Corte de Cabelo", price: 200, time: "Pacote Mensal", desc: "Pacote de 4 cortes de cabelo." },
+      { id: 24, name: "Pacote Essencial - Cabelo", price: 300, time: "Pacote Trimestral", desc: "Pacote 6 cortes de cabelo + 3 hidratações grátis." }
+    ]
+  },
+  {
+    category: "Cabelo",
+    items: [
+      { id: 1, name: "Corte e Barba", price: 115, time: "1h", desc: "Corte e barba." },
+      { id: 2, name: "Corte Feminino", price: 70, time: "1h", desc: "Cortes curtos para mulheres." },
+      { id: 3, name: "Corte Infantil", price: 65, time: "30min", desc: "Crianças de 0 a 8 anos." },
+      { id: 4, name: "Corte Masculino", price: 60, time: "30min", desc: "Corte de cabelo na máquina ou tesoura com as melhores técnicas, higienização e secagem." },
+      { id: 5, name: "Hidratação", price: 25, time: "15min", desc: "Hidratação dos cabelos serve para deixar os fios macios e sedosos." },
+      { id: 6, name: "Penteado", price: 40, time: "30min", desc: "Penteado em cabelo masculino." },
+      { id: 7, name: "Pezinho", price: 25, time: "10min", desc: "Serviço de fazer o contorno do cabelo." },
+      { id: 8, name: "Relaxamento Capilar", price: 80, time: "30min", desc: "Tratamento químico para fios mais controlados e fáceis de moldar (cabelos de toda a parte de cima da cabeça)." },
+      { id: 9, name: "Relaxamento Capilar Franja", price: 55, time: "30min", desc: "Tratamento químico para fios mais controlados e fáceis de moldar (somente na franja)." },
+      { id: 10, name: "Selagem / Alisamento", price: 115, time: "1h", desc: "Alisamento, alinhamento e redução de volume dos cabelos (somente topo da cabeça)." },
+      { id: 11, name: "Selagem Franja", price: 65, time: "30min", desc: "Alisamento, alinhamento e redução de volume dos cabelos (somente franja)." },
+      { id: 12, name: "Tonalização", price: 65, time: "30min", desc: "Coloração semi-permanente, sem amônia." }
+    ]
+  },
+  {
+    category: "Barba e Bigode",
+    items: [
+      { id: 13, name: "Barba", price: 55, time: "30min", desc: "Aparar e modelar a barba com o uso de toalha quente." },
+      { id: 14, name: "Coloração de Barba e Bigode", price: 45, time: "30min", desc: "Coloração de barba e bigode com tinta ou tonalizante." },
+      { id: 15, name: "Contorno de Barba", price: 40, time: "30min", desc: "Realizado apenas o contorno da barba, com navalha e loção pós-barba." }
+    ]
+  },
+  {
+    category: "Sobrancelha",
+    items: [
+      { id: 16, name: "Sobrancelha na Navalha", price: 25, time: "15min", desc: "Design e alinhamento de sobrancelha feito com navalha." }
+    ]
+  },
+  {
+    category: "Serviços Especiais",
+    items: [
+      { id: 17, name: "Depilação de Nariz na Cera", price: 30, time: "30min", desc: "Depilação de nariz na cera quente." },
+      { id: 18, name: "Depilação de Orelha", price: 25, time: "15min", desc: "Depilação de orelha com cera." },
+      { id: 19, name: "Sobrancelha na Cera", price: 35, time: "15min", desc: "Sobrancelha na cera." }
+    ]
+  }
+];
+
+const data = {
+  barbers: [
+{ id: 101, name: 'Gabriel Silva' },
+  { id: 102, name: 'Lucas Santos' },
+  { id: 103, name: 'Matheus Costa' }
+  ],
+  times: ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00", "17:00", "18:00"]
+};
+
+const st = {
+  selectedServices: [],
+  barber: null,
+  date: '',
+  time: '',
+  clientName: '',
+  clientPhone: ''
+};
+
+function renderServices() {
+  const container = $('services');
+  if (!container) return;
+
+  // Força a div de serviços a expandir a altura sem cortar nem criar barras estranhas
+  container.style.maxHeight = 'none';
+  container.style.height = 'auto';
+  container.style.overflow = 'visible';
+
+  container.innerHTML = '';
+
+  servicesData.forEach((cat, catIndex) => {
+    const isSelectedCategory = cat.items.some(s => st.selectedServices.includes(s.id));
+    
+    const catHtml = `
+      <div style="margin-bottom: 12px; border: 1px solid #333; border-radius: 8px; overflow: hidden; background: #1a1a1a; width: 100%;">
+        <button type="button" onclick="toggleCategory(${catIndex})" 
+                style="width: 100%; padding: 14px 18px; background: #242424; color: #fff; text-align: left; border: none; font-size: 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+          <span>${cat.category} ${isSelectedCategory ? '✓' : ''}</span>
+          <span id="icon-cat-${catIndex}">▼</span>
+        </button>
+        <div id="cat-body-${catIndex}" style="display: ${$(`cat-body-${catIndex}`)?.style.display === 'block' || isSelectedCategory ? 'block' : 'none'}; padding: 10px 18px; background: #121212;">         ${cat.items.map(svc => {
+            const isSel = st.selectedServices.includes(svc.id);
+            return `
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #282828; padding: 12px 0;">
+                <div style="max-width: 65%; text-align: left;">
+                  <h4 style="margin: 0; color: #fff; font-size: 15px;">${svc.name}</h4>
+                  <small style="color: #888;">⏱ ${svc.time}</small>
+                  <p style="margin: 4px 0 0 0; color: #aaa; font-size: 12px;">${svc.desc}</p>
+                </div>
+                <div style="text-align: right;">
+                  <div style="color: #d4af37; font-weight: bold; font-size: 15px; margin-bottom: 6px;">R$ ${svc.price.toFixed(2)}</div>
+                  <button type="button" onclick="selectService(${svc.id})" 
+                          style="background: ${isSel ? '#28a745' : '#d4af37'}; border: none; padding: 6px 12px; color: ${isSel ? '#fff' : '#000'}; font-weight: bold; border-radius: 4px; cursor: pointer;">
+                    ${isSel ? 'Selecionado ✓' : 'Agendar'}
+                  </button>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+    container.innerHTML += catHtml;
+  });
+}
+
+function toggleCategory(index) {
+  const body = $('cat-body-' + index);
+  const icon = $('icon-cat-' + index);
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    icon.innerText = '▲';
+  } else {
+    body.style.display = 'none';
+    icon.innerText = '▼';
+  }
+}
+
+function selectService(id) {
+  const idx = st.selectedServices.indexOf(id);
+  
+  if (idx > -1) {
+    st.selectedServices.splice(idx, 1);
+  } else {
+    st.selectedServices.push(id);
+  }
+
+  // Atualiza apenas o botão clicado para 'Selecionado ✓' sem fechar a categoria
+  const btn = document.querySelector(`[onclick*="selectService(${id})"]`);
+  if (btn) {
+    const isSel = st.selectedServices.includes(id);
+    btn.style.background = isSel ? '#28a745' : '#d4af37';
+    btn.style.color = isSel ? '#fff' : '#000';
+    btn.innerText = isSel ? 'Selecionado ✓' : 'Agendar';
+  }
+
+  updateSummary();
+}
+    function renderBarbers() {
+      const container = $('barbers');
+      container.innerHTML = data.barbers.map(b => `
+        <div class="opt ${st.barber === b.id ? 'selected' : ''}" tabindex="0" role="button" onclick="selectBarber(${b.id})">
+          <div class="opt-title">${b.name}</div>
+        </div>
+      `).join('');
+    }
+
+    function selectBarber(id) {
+      st.barber = id;
+      renderBarbers();
+      nextStep(3);
+    }
+
+    function renderTimes() {
+      const container = $('times');
+      container.innerHTML = data.times.map(t => `
+        <div class="opt ${st.time === t ? 'selected' : ''}" tabindex="0" role="button" onclick="selectTime('${t}')" style="justify-content:center;">
+          <div class="opt-title">${t}</div>
+        </div>
+      `).join('');
+    }
+
+    function selectTime(time) {
+      st.time = time;
+      renderTimes();
+      nextStep(4);
+    }
+
+ function nextStep(step) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  const currentStepEl = document.getElementById(`step-${step}`);
+  if (currentStepEl) {
+    currentStepEl.classList.add('active');
+  }
+}
+
+function prevStep(stepNumber) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  const currentStepEl = document.getElementById(`step-${stepNumber}`);
+  if (currentStepEl) {
+    currentStepEl.classList.add('active');
+  }
+}
+
+function reviewBooking() {
+  const nameInput = $('name') || document.getElementById('name');
+  const phoneInput = $('phone') || document.getElementById('phone');
+
+  if (nameInput) st.clientName = nameInput.value.trim();
+  if (phoneInput) st.clientPhone = phoneInput.value.replace(/\D/g, '');
+
+  if (!st.clientName || st.clientPhone.length < 10) {
+    alert('Por favor, informe seu nome e um WhatsApp válido.');
+    return;
+  }
+
+  // Busca em todas as categorias os serviços selecionados
+  const allServices = servicesData.flatMap(c => c.items);
+  const selectedSvcs = allServices.filter(s => st.selectedServices.includes(s.id));
+  const total = selectedSvcs.reduce((acc, curr) => acc + curr.price, 0);
+  const barber = data.barbers.find(b => b.id === st.barber);
+
+  // Preenche a div de resumo exatamente com a tua estrutura HTML original
+  const summaryEl = $('summary');
+  if (summaryEl) {
+    summaryEl.innerHTML = `
+      <div class="summary-row"><span>Cliente:</span> <span>${st.clientName}</span></div>
+      <div class="summary-row"><span>Profissional:</span> <span>${barber ? barber.name : '-'}</span></div>
+      <div class="summary-row"><span>Data & Hora:</span> <span>${st.date} às ${st.time}</span></div>
+      <div class="summary-row"><span>Serviços:</span> <span>${selectedSvcs.map(s => s.name).join(', ')}</span></div>
+      <div class="summary-row"><span>Total:</span> <span>R$ ${total.toFixed(2)}</span></div>
+    `;
+  }
+
+  // Avança para o Passo 5 (Ecrã de Revisão Final)
+  nextStep(5);
+}
+async function confirmBooking() {
+  const allServices = servicesData.flatMap(c => c.items);
+  const selectedSvcs = allServices.filter(s => st.selectedServices.includes(s.id));
+
+  if (selectedSvcs.length === 0) {
+    alert('Nenhum serviço selecionado.');
+    return;
+  }
+
+  const total = selectedSvcs.reduce((acc, curr) => acc + curr.price, 0);
+  const serviceNames = selectedSvcs.map(s => s.name).join(', ');
+
+  let barberId = st.barber;
+  let barberName = 'Qualquer Profissional';
+
+  if (typeof st.barber === 'object' && st.barber !== null) {
+    barberId = st.barber.id;
+    barberName = st.barber.name;
+  } else if (typeof st.barber === 'number' || typeof st.barber === 'string') {
+    const foundBarber = data.barbers.find(b => b.id == st.barber);
+    if (foundBarber) {
+      barberId = foundBarber.id;
+      barberName = foundBarber.name;
+    }
+  }
+
+  const cleanPhone = (st.clientPhone || '').replace(/\D/g, '');
+
+  if (!st.clientName || !cleanPhone) {
+    alert('Por favor, informe um nome e telefone válidos.');
+    return;
+  }
+
+  const payload = {
+    nome: st.clientName,
+    clientName: st.clientName,
+    whatsapp: cleanPhone,
+    clientPhone: cleanPhone,
+    barber: barberId || 103,
+    barbeiro_id: barberId || 103,
+    date: st.date,
+    time: st.time,
+    services: serviceNames,
+    selectedServices: st.selectedServices,
+    total: total
+  };
+
+  try {
+    const response = await fetch('http://localhost:3000/api/agendamentos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (response.ok) {
+      alert('Agendamento realizado com sucesso!');
+      const totalFormatado = total.toFixed(2).replace('.', ',');
+      const msgText = `Olá! Gostaria de confirmar meu agendamento na Old Crown 💈\n\n` +
+                      ` *Data:* ${st.date}\n` +
+                      ` *Horário:* ${st.time}\n` +
+                      ` *Barbeiro:* ${barberName}\n` +
+                      ` *Serviços:* ${serviceNames}\n` +
+                      ` *Valor Total:* R$ ${totalFormatado}`;
+
+      const msg = encodeURIComponent(msgText);
+      window.open(`https://wa.me/55${cleanPhone}?text=${msg}`, '_blank');
+      location.reload();
+    } else {
+      const errData = await response.json().catch(() => ({}));
+      console.error('Erro retornado pelo servidor:', errData);
+      alert('Erro ao salvar agendamento no banco. Verifique o terminal do Node.js.');
+    }
+  } catch (err) {
+    console.error('Erro de conexão:', err);
+    alert('Erro ao conectar com o servidor Node.js. Verifique se o server está rodando.');
+  }
+}
+
+function updateSummary() {
+  // Busca todos os serviços nas categorias
+  const allServices = servicesData.flatMap(c => c.items);
+  const selectedSvcs = allServices.filter(s => st.selectedServices.includes(s.id));
+  const total = selectedSvcs.reduce((acc, curr) => acc + curr.price, 0);
+
+  // Se houver um container de lista no resumo
+  const container = document.getElementById('summary-services') || $('summary-services');
+  if (container) {
+    container.innerHTML = selectedSvcs.map(s => `
+      <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #ccc;">
+        <span>${s.name}</span>
+        <span style="color: #d4af37; font-weight: bold;">R$ ${s.price.toFixed(2)}</span>
+      </div>
+    `).join('');
+  }
+
+  // Atualiza o valor total
+  const totalEl = document.getElementById('summary-total') || $('summary-total');
+  if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
+
+  // Atualiza o nome do barbeiro
+  const barberEl = document.getElementById('summary-barber') || $('summary-barber');
+  if (barberEl) {
+    const nomeBarbeiro = typeof st.barber === 'object' ? st.barber.name : (st.barber || 'Não selecionado');
+    barberEl.innerText = nomeBarbeiro;
+  }
+
+  // Formata e atualiza a data e hora
+  const datetimeEl = document.getElementById('summary-datetime') || $('summary-datetime');
+  if (datetimeEl && st.date && st.time) {
+    const [year, month, day] = st.date.split('-');
+    datetimeEl.innerText = `${day}/${month}/${year} às ${st.time}`;
+  }
+}
+
+    // Inicialização e Eventos
+    document.addEventListener('DOMContentLoaded', () => {
+      renderServices();
+      renderBarbers();
+      renderTimes();
+
+      const today = new Date().toISOString().split('T')[0];
+      $('date').min = today;
+      $('date').value = today;
+      st.date = today;
+
+      $('date').addEventListener('change', e => {
+        st.date = e.target.value;
+      });
+
+      // Máscara WhatsApp
+      $('phone').addEventListener('input', e => {
+        let v = e.target.value.replace(/\D/g, '');
+        if (v.length > 11) v = v.slice(0, 11);
+
+        if (v.length > 6) {
+          e.target.value = `(${v.slice(0, 2)}) ${v.slice(2, 7)}-${v.slice(7)}`;
+        } else if (v.length > 2) {
+          e.target.value = `(${v.slice(0, 2)}) ${v.slice(2)}`;
+        } else {
+          e.target.value = v;
+        }
+      });
+
+      // Acessibilidade por Teclado
+      document.addEventListener('keydown', e => {
+        if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('opt')) {
+          e.preventDefault();
+          e.target.click();
+        }
+      });
+    });
+    function openLoginModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('login-modal').style.display = 'flex';
+}
+
+function closeLoginModal() {
+  document.getElementById('login-modal').style.display = 'none';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+}
+
+function submitLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value.trim();
+
+  // Validação simples (pode alterar o e-mail e senha padrão aqui)
+  if (email === 'admin@oldcrown.com' && password === '123456') {
+    closeLoginModal();
+    window.location.href = 'admin.html';
+  } else {
+    alert('E-mail ou senha incorretos!');
+  }
+}
+function openLoginModal(e) {
+  if (e) e.preventDefault();
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-password').value = '';
+  document.getElementById('login-modal').style.display = 'flex';
+}
+  </script>
+  <!-- Modal de Login do Barbeiro -->
+<div id="login-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 9999; justify-content: center; align-items: center;">
+  <div style="background: #1e1e1e; padding: 25px; border-radius: 10px; border: 1px solid #c9a24b; width: 90%; max-width: 350px; text-align: center; color: #fff; font-family: sans-serif;">
+    <h3 style="margin-top: 0; color: #c9a24b;">Acesso do Barbeiro 💈</h3>
+    <p style="font-size: 0.85rem; color: #aaa; margin-bottom: 20px;">Digite suas credenciais para entrar no painel.</p>
+    
+   <div style="margin-bottom: 15px; text-align: left;">
+  <label style="font-size: 0.8rem; color: #ccc;">E-mail</label>
+  <input type="email" id="login-email" autocomplete="off" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #333; background: #121212; color: #fff; box-sizing: border-box;">
+</div>
+
+<div style="margin-bottom: 20px; text-align: left;">
+  <label style="font-size: 0.8rem; color: #ccc;">Senha</label>
+  <input type="password" id="login-password" autocomplete="new-password" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #333; background: #121212; color: #fff; box-sizing: border-box;">
+</div>
+
+    <div style="display: flex; gap: 10px;">
+      <button onclick="closeLoginModal()" style="flex: 1; padding: 10px; background: #333; color: #fff; border: none; border-radius: 5px; cursor: pointer;">Cancelar</button>
+      <button onclick="submitLogin()" style="flex: 1; padding: 10px; background: #c9a24b; color: #000; font-weight: bold; border: none; border-radius: 5px; cursor: pointer;">Entrar</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
